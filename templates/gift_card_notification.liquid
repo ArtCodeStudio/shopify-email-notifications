@@ -1,7 +1,8 @@
 {% comment %}
-    Gift card created
+    Settings/Notifications/Gift card created
     subject de: Ihre {{shop.name}} Geschenkkarte ist fertig!
     subject en: Your {{ shop.name }} gift card is ready!
+    translation by https://www.jumplink.eu/
 {% endcomment %}
 
 {% assign button-border-radius = 0 %}
@@ -12,16 +13,22 @@
 {% assign language = 'de' %}
 
 {% if language == 'de' %}
-    {% capture email_title %}Your gift card is now available! {% endcapture %}
-    {% capture email_body %}Hi{% if gift_card.customer %} {{ gift_card.customer.first_name }}{% endif %}, here is your {{ gift_card.balance | money_without_trailing_zeros }} gift card. Treat yourself, or send it to someone else as a gift.{% endcapture %}
-
+    {% capture email_title %}Deine Geschenkkarte ist verfügbar! {% endcapture %}
+    {% capture email_body %}Hallo{% if gift_card.customer %} {{ gift_card.customer.first_name }}{% endif %}, hier ist Ihre {{ gift_card.balance | money_without_trailing_zeros }} Geschenkkarte. Gönnen Sie sich selber etwas oder verschenken Sie die Geschenkkarte an jemanden.{% endcapture %}
     {% capture disclaimer__subtext %}Wenn Sie irgendwelche Fragen haben, antworten Sie einfach auf diese E-Mail oder kontaktieren Sie uns über <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>{% endcapture %}
+
+    {% capture view_your_gift_card_t %}Geschenkkarte anschauen{% endcapture %}
+    {% capture or_t %}oder{% endcapture %}
+    {% capture visit_our_store_t %}Shop besuchen{% endcapture %}
 
 {% else %}
     {% capture email_title %}Your gift card is now available! {% endcapture %}
     {% capture email_body %}Hi{% if gift_card.customer %} {{ gift_card.customer.first_name }}{% endif %}, here is your {{ gift_card.balance | money_without_trailing_zeros }} gift card. Treat yourself, or send it to someone else as a gift.{% endcapture %}
-
     {% capture disclaimer__subtext %}If you have any questions, reply to this email or contact us at <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>{% endcapture %}
+
+    {% capture view_your_gift_card_t %}View your gift card{% endcapture %}
+    {% capture or_t %}or{% endcapture %}
+    {% capture visit_our_store_t %}Visit our store{% endcapture %}
 
 {% endif %}
 
@@ -96,13 +103,13 @@
     <td class="actions__cell">
       <table class="button main-action-cell">
         <tr>
-          <td class="button__cell"><a href="{{ gift_card.url }}" class="button__text">View your gift card</a></td>
+          <td class="button__cell"><a href="{{ gift_card.url }}" class="button__text">{{ view_your_gift_card_t }}</a></td>
         </tr>
       </table>
       {% if shop.url %}
     <table class="link secondary-action-cell">
       <tr>
-        <td class="link__cell"><a href="{{ shop.url }}" class="link__text"><span class='or'>or</span> Visit our store</a></td>
+        <td class="link__cell"><a href="{{ shop.url }}" class="link__text"><span class='or'>{{ or_t }}</span> {{ visit_our_store_t }}</a></td>
       </tr>
     </table>
 {% endif %}

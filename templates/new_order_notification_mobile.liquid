@@ -1,0 +1,20 @@
+{% comment %}
+    Settings/Notifications/New order (mobile)
+    subject de: Bestellung {{ name }}
+    subject en: Order {{ name }}
+    translation by https://www.jumplink.eu/
+{% endcomment %}
+
+{% comment %}
+  Language Code: en or de
+{% endcomment %}
+{% assign language = 'de' %}
+
+{% if language == 'de' %}
+    {% capture email_body %}{{ customer.name | default: "A customer" }} hat heute eine neue Bestellung durchgeführt ({{ date | date: "%b %d %I:%M%p" }}){% endcapture %}
+{% else %}
+    {% capture email_body %}{{ customer.name | default: "A customer" }} placed a new order with you today ({{ date | date: "%b %d %I:%M%p" }}){% endcapture %}
+{% endif %}
+
+<p>{{ shop_name }},</p>
+<p>{{ email_body }}.</p>

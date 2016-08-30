@@ -1,12 +1,10 @@
 {% comment %}
     Settings/Notifications/New order
-    subject de: [{{shop_name}}] Bestellung {{ name }} gemacht von {{ billing_address.name }}{% if has_high_risks? %} (Hohes Betrugsrisiko){% endif %}
+    subject de: [{{shop_name}}] Bestellung {{ name }} durchgeführt von {{ billing_address.name }}{% if has_high_risks? %} (Hohes Betrugsrisiko){% endif %}
     subject en: [{{shop_name}}] Order {{ name }} placed by {{ billing_address.name }}{% if has_high_risks? %} (Risk of fraud){% endif %}
     translation by https://www.jumplink.eu/
 {% endcomment %}
 
-{% assign button-border-radius = 0 %}
-{% assign button-font-weight = 'bold' %}
 {% comment %}
   Language Code: en or de
 {% endcomment %}
@@ -14,25 +12,38 @@
 
 {% if language == 'de' %}
 
-    {% capture new_order_text %}{% if customer.name %}{{ customer.name }}{% else %}Jemand{% endif %} hat eine neue Bestellung durchgeführt, {{ date | date: "%b %d %I:%M%p" }}:{% endcapture %}
+    {% capture new_order_text %}{% if customer.name %}{{ customer.name }}{% else %}Jemand{% endif %} hat eine neue Bestellung durchgeführt, am {{ date | date: "%b %d %I:%M%p" }}:{% endcapture %}
     {% capture fulfillment_aborted_t %}Die obere Bestellung wurde nicht automatisch durchgeführt, da sie als Betrugsverdächtig makiert wurde.{% endcapture %}
-    {% capture has_high_risks_text %}This order has a risk of being fraudulent. Review the order in your store's admin and contact the customer to verify their information.{% endcapture %}
+    {% capture has_high_risks_text %}Diese Bestellung hat ein hohes Risiko betrügerisch zu sein. Bütte überprüfen sie die Bestellung und dessen Kundendaten in der Shop Admin.{% endcapture %}
+    {% capture fulfilling_with_shopify %}Spare Zeit und Geld mit <a href="{{ fulfillment_url }}">Shopify Shipping</a>{% endcapture %}
 
     {% capture hello_t %}Hallo{% endcapture %}
     {% capture for_t %}für{% endcapture %}
     {% capture each_t %}pro Stück{% endcapture %}
     {% capture security_check_t %}Sicherheitsüberprüfung{% endcapture %}
+    {% capture payment_processing_method_t %}Zahlungsverfahren{% endcapture %}
+    {% capture delivery_method_t %}Zustellungsmethode{% endcapture %}
+    {% capture shipping_address_t %}Lieferanschrift{% endcapture %}
+    {% capture pick_up_t %}Dieser Kunde wünscht eine Selbstabholung{% endcapture %}
+    {% capture view_order_t %}Bestellung anschauen{% endcapture %}
 
 {% else %}
 
     {% capture new_order_text %}{% if customer.name %}{{ customer.name }}{% else %}Someone{% endif %} placed a new order with your store, {{ date | date: "%b %d %I:%M%p" }}:{% endcapture %}
     {% capture fulfillment_aborted_t %}The above order was not automatically fulfilled because it was flagged as suspicious.{% endcapture %}
     {% capture has_high_risks_text %}This order has a risk of being fraudulent. Review the order in your store's admin and contact the customer to verify their information.{% endcapture %}
+    {% capture fulfilling_with_shopify %}Save time and money by <a href="{{ fulfillment_url }}">fulfilling with Shopify Shipping</a>{% endcapture %}
 
     {% capture hello_t %}Hello{% endcapture %}
     {% capture for_t %}for{% endcapture %}
     {% capture each_t %}each{% endcapture %}
     {% capture security_check_t %}Security check{% endcapture %}
+    {% capture payment_processing_method_t %}Payment processing method{% endcapture %}
+    {% capture delivery_method_t %}Delivery method{% endcapture %}
+    {% capture shipping_address_t %}Shipping address{% endcapture %}
+    {% capture pick_up_t %}This customer wants a Pickup his Order{% endcapture %}
+    {% capture view_order_t %}View order{% endcapture %}
+    
 
 {% endif %}
 
@@ -40,30 +51,59 @@
 <p></p>
 <p>{{ new_order_text }}</p>
 <p></p>
-<ul>  {% for line in line_items %} <li> <img src="{{ line | img_url: 'thumb' }}" /> {{ line.quantity }}x {{ line.title }} {% if line.sku != "" %}(SKU: {{line.sku}}){% endif %} {{ for_t }} {{ line.price | money }} {{ each_t }} </li> {% endfor %} </ul>
-<a href="https://{{ shop.permanent_domain }}/admin/orders/{{ id }}">View order {{order_name}} </a>
+
+<ul>
+    {% for line in line_items %}
+        <li>
+            <img src="{{ line | img_url: 'thumb' }}" />
+                {{ line.quantity }}x {{ line.title }}
+                {% if line.sku != "" %}
+                    (SKU: {{line.sku}})
+                {% endif %}
+                {{ for_t }} {{ line.price | money }} {{ each_t }}
+        </li>
+    {% endfor %}
+</ul>
+
+<a href="https://{{ shop.permanent_domain }}/admin/orders/{{ id }}">{{view_order_t}} {{order_name}} </a>
+
 {% if fulfillment_aborted %}
-<p>{{ fulfillment_aborted_t }}</p>{% endif %}
-<p></p><br>
-{% if has_high_risks? %}<p><b>{{ security_check_t }}:</b></p>
-<p>{{ has_high_risks_text }}</p>
-<p></p>{% endif %}
-<p><b>Payment processing method:</b></p>
+    <p>{{ fulfillment_aborted_t }}</p>
+{% endif %}
+<p></p>
+<br>
+
+{% if has_high_risks? %}
+    <p><b>{{ security_check_t }}:</b></p>
+    <p>{{ has_high_risks_text }}</p>
+    <p></p>
+{% endif %}
+
+<p><b>{{ payment_processing_method_t }}:</b></p>
 <p>{{ gateway }}</p>
 <p></p>
+
 {% if requires_shipping and shipping_address %}
-<p><b>Delivery method:</b></p>
-{% for shipping_method in shipping_methods %}<p>{{ shipping_method.title }}</p>{% endfor %}
-<p></p>
-<p><b>Shipping address:</b></p>
-<p>{{ shipping_address.name }}</p>
-<p>{{ shipping_address.street }}</p>
-<p>{{ shipping_address.city }}, {{ shipping_address.province }}  {{ shipping_address.zip }}</p>
-<p>{{ shipping_address.country }}</p>
-<p>{{ shipping_address.phone }}{% endif %}</p>
+    <p><b>{{delivery_method_t}}:</b></p>
+    {% for shipping_method in shipping_methods %}
+        <p>{{ shipping_method.title }}</p>
+    {% endfor %}
+    <p></p>
+    <p><b>{{ shipping_address_t }}:</b></p>
+    {% if attributes.Pickup-Location-Id %}
+        <p>{{ pick_up_t }}</p>
+    {% else %}
+        <p>{{ shipping_address.name }}</p>
+        <p>{{ shipping_address.street }}</p>
+        <p>{{ shipping_address.city }}, {{ shipping_address.province }}  {{ shipping_address.zip }}</p>
+        <p>{{ shipping_address.country }}</p>
+        <p>{{ shipping_address.phone }}</p>
+    {% endif %}
+{% endif %}
+
 <p></p>
 
 {% if shopify_shipping_enabled %}
-<p>Save time and money by <a href="{{ fulfillment_url }}">fulfilling with Shopify Shipping</a></p>
-<p></p>
+    <p>{{ fulfilling_with_shopify }}</p>
+    <p></p>
 {% endif %}

@@ -1,7 +1,8 @@
 {% comment %}
-    Shipping update
+    Settings/Notifications/Shipping update
     subject de: Update zum Versand für Bestellung {{ name }}
     subject en: Shipping update for order {{ name }}
+    translation by https://www.jumplink.eu/
 {% endcomment %}
 
 {% assign button-border-radius = 0 %}
@@ -12,17 +13,27 @@
 {% assign language = 'de' %}
 
 {% if language == 'de' %}
-    {% capture email_title %}Your shipping status has been updated {% endcapture %}
-    {% capture email_body %}The following items have been updated with new shipping information.{% endcapture %}
+  {% capture email_title %}Ihr Versandstatus wurde aktualisiert {% endcapture %}
+  {% capture email_body %}Die folgenden Artikel wurden mit neuen Versandinformationen aktualisiert.{% endcapture %}
+  {% capture disclaimer__subtext %}Wenn Sie irgendwelche Fragen haben, antworten Sie einfach auf diese E-Mail oder kontaktieren Sie uns über <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>{% endcapture %}
 
-    {% capture disclaimer__subtext %}Wenn Sie irgendwelche Fragen haben, antworten Sie einfach auf diese E-Mail oder kontaktieren Sie uns über <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>{% endcapture %}
+  {% capture order_t %}Bestellung{% endcapture %}
+  {% capture or_t %}oder{% endcapture %}
+  {% capture visit_our_store_t %}Shop besuchen{% endcapture %}
+  {% capture view_order_t %}Bestellung ansehen{% endcapture %}
+  {% capture items_in_this_shipment_t %}Artikel in dieser Sendung{% endcapture %}
 
 {% else %}
-    {% capture email_title %}Your shipping status has been updated {% endcapture %}
-    {% capture email_body %}The following items have been updated with new shipping information.{% endcapture %}
+  {% capture email_title %}Your shipping status has been updated {% endcapture %}
+  {% capture email_body %}The following items have been updated with new shipping information.{% endcapture %}
+  {% capture disclaimer__subtext %}If you have any questions, reply to this email or contact us at <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>{% endcapture %}
 
-    {% capture disclaimer__subtext %}If you have any questions, reply to this email or contact us at <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>{% endcapture %}
-
+  {% capture order_t %}Order{% endcapture %}
+  {% capture or_t %}or{% endcapture %}
+  {% capture visit_our_store_t %}Visit our store{% endcapture %}
+  {% capture view_order_t %}View your order{% endcapture %}
+  {% capture items_in_this_shipment_t %}Items in this shipment{% endcapture %}
+    
 {% endif %}
 
 
@@ -72,7 +83,7 @@
 
                     <td class="order-number__cell">
                       <span class="order-number__text">
-                        Order {{ order_name }}
+                        {{ order_t }} {{ order_name }}
                       </span>
                     </td>
                 </tr>
@@ -104,13 +115,13 @@
     <td class="actions__cell">
       <table class="button main-action-cell">
         <tr>
-          <td class="button__cell"><a href="{{ order_status_url }}" class="button__text">View your order</a></td>
+          <td class="button__cell"><a href="{{ order_status_url }}" class="button__text">{{ view_order_t }}</a></td>
         </tr>
       </table>
       {% if shop.url %}
     <table class="link secondary-action-cell">
       <tr>
-        <td class="link__cell"><a href="{{ shop.url }}" class="link__text"><span class='or'>or</span> Visit our store</a></td>
+        <td class="link__cell"><a href="{{ shop.url }}" class="link__text"><span class='or'>{{ or_t }}</span> {{ visit_our_store_t }}</a></td>
       </tr>
     </table>
 {% endif %}
@@ -126,7 +137,7 @@
         <td class="actions__cell">
           <table class="button main-action-cell">
             <tr>
-              <td class="button__cell"><a href="{{ shop.url }}" class="button__text">Visit our store</a></td>
+              <td class="button__cell"><a href="{{ shop.url }}" class="button__text">{{ visit_our_store_t }}</a></td>
             </tr>
           </table>
         </td>
@@ -151,7 +162,7 @@
         <table class="container">
           <tr>
             <td>
-              <h3>Items in this shipment</h3>
+              <h3>{{ items_in_this_shipment_t }}</h3>
             </td>
           </tr>
         </table>

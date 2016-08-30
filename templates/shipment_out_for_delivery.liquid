@@ -1,7 +1,8 @@
 {% comment %}
-    Shipment out for delivery
-    subject de: A shipment from order {{ name }} is out for delivery
+    Settings/Notifications/Shipment out for delivery
+    subject de: Eine Sendung Ihrer Bestellung {{ name }} ist bereit für die Zustellung
     subject en: A shipment from order {{ name }} is out for delivery
+    translation by https://www.jumplink.eu/
 {% endcomment %}
 
 {% assign button-border-radius = 0 %}
@@ -12,50 +13,61 @@
 {% assign language = 'de' %}
 
 {% if language == 'de' %}
-    {% if fulfillment.item_count == item_count %} 
-    {% capture shipment_name %}Your order is{% endcapture %}
-    {% elsif fulfillment.item_count > 1 %} 
-    {% if fulfillment_status == 'fulfilled' %}
-        {% capture shipment_name %}The last items in your order are{% endcapture %}
-    {% else %}
-        {% capture shipment_name %}Some items in your order are{% endcapture %}
-    {% endif %}
-    {% else %} 
-    {% if fulfillment_status == 'fulfilled' %}
-        {% capture shipment_name %}The last item in your order is{% endcapture %}
-    {% else %}
-        {% capture shipment_name %}One item in your order is{% endcapture %}
-    {% endif %}
-    {% endif %}
+  {% if fulfillment.item_count == item_count %} 
+  {% capture shipment_name %}Ihre Bestellung ist{% endcapture %}
+  {% elsif fulfillment.item_count > 1 %} 
+  {% if fulfillment_status == 'fulfilled' %}
+      {% capture shipment_name %}Die letzten Artikel aus Ihrer Bestellung sind{% endcapture %}
+  {% else %}
+      {% capture shipment_name %}Einige Ihrer Artikel aus Ihrer Bestellung sind{% endcapture %}
+  {% endif %}
+  {% else %} 
+  {% if fulfillment_status == 'fulfilled' %}
+      {% capture shipment_name %}Der letzte Artikel aus Ihrer Bestellung ist{% endcapture %}
+  {% else %}
+      {% capture shipment_name %}Ein Artikel aus Ihrer Bestellung ist{% endcapture %}
+  {% endif %}
+  {% endif %}
 
-    {% capture email_title %}{{ shipment_name }} out for delivery{% endcapture %}
-    {% capture email_body %}{{ shipment_name }} out for delivery. Track your shipment to see the delivery status.{% endcapture %}
-    {% capture email_emphasis %}Estimated delivery date: <strong>{{fulfillment.estimated_delivery_at | date: "%B %d, %Y"}}</strong>{% endcapture %}
-
+  {% capture email_title %}{{ shipment_name }} bereit für die Zustellung{% endcapture %}
+  {% capture email_body %}{{ shipment_name }} bereit für die Zustellung. Verfolgen Sie Ihre Sendung um den Lieferstatus zu sehen.{% endcapture %}
+  {% capture email_emphasis %}Voraussichtlicher Liefertermin: <strong>{{fulfillment.estimated_delivery_at | date: "%B %d, %Y"}}</strong>{% endcapture %}
   {% capture disclaimer__subtext %}Wenn Sie irgendwelche Fragen haben, antworten Sie einfach auf diese E-Mail oder kontaktieren Sie uns über <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>{% endcapture %}
 
+  {% capture order_t %}Bestellung{% endcapture %}
+  {% capture or_t %}oder{% endcapture %}
+  {% capture visit_our_store_t %}Shop besuchen{% endcapture %}
+  {% capture track_my_shipment_t %}Lieferung verfolgen{% endcapture %}
+  {% capture items_in_this_shipment_t %}Artikel in dieser Sendung{% endcapture %}
+
 {% else %}
-    {% if fulfillment.item_count == item_count %} 
-    {% capture shipment_name %}Your order is{% endcapture %}
-    {% elsif fulfillment.item_count > 1 %} 
-    {% if fulfillment_status == 'fulfilled' %}
-        {% capture shipment_name %}The last items in your order are{% endcapture %}
-    {% else %}
-        {% capture shipment_name %}Some items in your order are{% endcapture %}
-    {% endif %}
-    {% else %} 
-    {% if fulfillment_status == 'fulfilled' %}
-        {% capture shipment_name %}The last item in your order is{% endcapture %}
-    {% else %}
-        {% capture shipment_name %}One item in your order is{% endcapture %}
-    {% endif %}
-    {% endif %}
 
-    {% capture email_title %}{{ shipment_name }} out for delivery{% endcapture %}
-    {% capture email_body %}{{ shipment_name }} out for delivery. Track your shipment to see the delivery status.{% endcapture %}
-    {% capture email_emphasis %}Estimated delivery date: <strong>{{fulfillment.estimated_delivery_at | date: "%B %d, %Y"}}</strong>{% endcapture %}
+  {% if fulfillment.item_count == item_count %} 
+  {% capture shipment_name %}Your order is{% endcapture %}
+  {% elsif fulfillment.item_count > 1 %} 
+  {% if fulfillment_status == 'fulfilled' %}
+      {% capture shipment_name %}The last items in your order are{% endcapture %}
+  {% else %}
+      {% capture shipment_name %}Some items in your order are{% endcapture %}
+  {% endif %}
+  {% else %} 
+  {% if fulfillment_status == 'fulfilled' %}
+      {% capture shipment_name %}The last item in your order is{% endcapture %}
+  {% else %}
+      {% capture shipment_name %}One item in your order is{% endcapture %}
+  {% endif %}
+  {% endif %}
 
-    {% capture disclaimer__subtext %}If you have any questions, reply to this email or contact us at <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>{% endcapture %}
+  {% capture email_title %}{{ shipment_name }} out for delivery{% endcapture %}
+  {% capture email_body %}{{ shipment_name }} out for delivery. Track your shipment to see the delivery status.{% endcapture %}
+  {% capture email_emphasis %}Estimated delivery date: <strong>{{fulfillment.estimated_delivery_at | date: "%B %d, %Y"}}</strong>{% endcapture %}
+  {% capture disclaimer__subtext %}If you have any questions, reply to this email or contact us at <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>{% endcapture %}
+
+  {% capture order_t %}Order{% endcapture %}
+  {% capture or_t %}or{% endcapture %}
+  {% capture visit_our_store_t %}Visit our store{% endcapture %}
+  {% capture track_my_shipment_t %}Track my shipment{% endcapture %}
+  {% capture items_in_this_shipment_t %}Items in this shipment{% endcapture %}
 
 {% endif %}
 
@@ -106,7 +118,7 @@
 
                     <td class="order-number__cell">
                       <span class="order-number__text">
-                        Order {{ order_name }}
+                        {{ order_t }} {{ order_name }}
                       </span>
                     </td>
                 </tr>
@@ -140,13 +152,13 @@
     <td class="actions__cell">
       <table class="button main-action-cell">
         <tr>
-          <td class="button__cell"><a href="{{ order_status_url }}" class="button__text">Track my shipment</a></td>
+          <td class="button__cell"><a href="{{ order_status_url }}" class="button__text">{{ track_my_shipment_t }}</a></td>
         </tr>
       </table>
       {% if shop.url %}
     <table class="link secondary-action-cell">
       <tr>
-        <td class="link__cell"><a href="{{ shop.url }}" class="link__text"><span class='or'>or</span> Visit our store</a></td>
+        <td class="link__cell"><a href="{{ shop.url }}" class="link__text"><span class='or'>{{ or_t }}</span> {{ visit_our_store_t }}</a></td>
       </tr>
     </table>
 {% endif %}
@@ -162,7 +174,7 @@
         <td class="actions__cell">
           <table class="button main-action-cell">
             <tr>
-              <td class="button__cell"><a href="{{ shop.url }}" class="button__text">Visit our store</a></td>
+              <td class="button__cell"><a href="{{ shop.url }}" class="button__text">{{ visit_our_store_t }}</a></td>
             </tr>
           </table>
         </td>
@@ -187,7 +199,7 @@
         <table class="container">
           <tr>
             <td>
-              <h3>Items in this shipment</h3>
+              <h3>{{ items_in_this_shipment_t }}</h3>
             </td>
           </tr>
         </table>

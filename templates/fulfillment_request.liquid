@@ -1,7 +1,8 @@
 {% comment %}
-    Fulfillment request
+    Settings/Notifications/Fulfillment request
     subject de: Anfrage Auftragsabwicklung für {{ shop_name }}
     subject en: Order fulfillment request for {{ shop_name }}
+    translation by https://www.jumplink.eu/
 {% endcomment %}
 
 {% comment %}
@@ -10,32 +11,56 @@
 {% assign language = 'de' %}
 
 {% if language == 'de' %}
-    {% comment %}
-        TODO
-    {% endcomment %}
+
+    {% capture please_fulfill_order_t %}Bitte vervollständige die Bestellung{% endcapture %}
+    {% capture total_number_of_items_t %}Gesamtzahl der Artikel{% endcapture %}
+    {% capture unique_items_t %}Einzigartige Artikel{% endcapture %}
+    {% capture items_to_fulfill_t %}Zu vervollständigende Artikel{% endcapture %}
+    {% capture variant_title_t %}Variante{% endcapture %}
+    {% capture quantity_t %}Menge{% endcapture %}
+    {% capture grams_t %}Gramm{% endcapture %}
+    {% capture vendor_t %}Hersteller{% endcapture %}
+    {% capture shipping_address_t %}Lieferanschrift{% endcapture %}
+    {% capture shipping_method_t %}Versandart{% endcapture %}
+    {% capture tracking_number_t %}Tracking-Nr.{% endcapture %}
+    {% capture customer_email_t %}Kunden-eMail{% endcapture %}
+    {% capture thank_you_t %}Vielen Dank{% endcapture %}
+
 {% else %}
-    {% comment %}
-        TODO
-    {% endcomment %}
+
+    {% capture please_fulfill_order_t %}Please fulfill order{% endcapture %}
+    {% capture total_number_of_items_t %}Total number of items{% endcapture %}
+    {% capture unique_items_t %}Unique items{% endcapture %}
+    {% capture items_to_fulfill_t %}Items to fulfill{% endcapture %}
+    {% capture variant_title_t %}Variant Title{% endcapture %}
+    {% capture quantity_t %}Quantity{% endcapture %}
+    {% capture grams_t %}Grams{% endcapture %}
+    {% capture vendor_t %}Vendor{% endcapture %}
+    {% capture shipping_address_t %}Shipping address{% endcapture %}
+    {% capture shipping_method_t %}Shipping method{% endcapture %}
+    {% capture tracking_number_t %}Tracking Number{% endcapture %}
+    {% capture customer_email_t %}Customer Email{% endcapture %}
+    {% capture thank_you_t %}Thank you{% endcapture %}
+
 {% endif %}
 
 <p>{{ service_name }},</p>
 <br>
-<p>Please fulfill order {{ name }}.</p>
-<p>Total number of items: {{ fulfillment.item_count }}</p>
-<p>Unique items: {{ fulfillment.fulfillment_line_items.size }}</p>
+<p>{{ please_fulfill_order_t }} {{ name }}.</p>
+<p>{{ total_number_of_items_t }}: {{ fulfillment.item_count }}</p>
+<p>{{ unique_items_t }}: {{ fulfillment.fulfillment_line_items.size }}</p>
 <br>
-<p><strong>Items to fulfill:</strong></p>
+<p><strong>{{ items_to_fulfill_t }}:</strong></p>
 {% for line in fulfillment.fulfillment_line_items %}
-  <p>Variant Title: {{ line.line_item.title }}</p>
+  <p>{{ variant_title_t }}: {{ line.line_item.title }}</p>
   <p>SKU: {{ line.line_item.sku }}</p>
-  <p>Quantity: {{ line.quantity }}</p>
-  <p>Grams: {{ line.line_item.grams }}</p>
-  <p>Vendor: {{ line.line_item.vendor }}</p>
+  <p>{{ quantity_t }}: {{ line.quantity }}</p>
+  <p>{{ grams_t }}: {{ line.line_item.grams }}</p>
+  <p>{{ vendor_t }}: {{ line.line_item.vendor }}</p>
 {% endfor %}
 {% if shipping_address %}
 <br>
-<p><strong>Shipping Address:</strong></p>
+<p><strong>{{ shipping_address_t }}:</strong></p>
 <p>{{ shipping_address.name }}{% if shipping_address.company %}
   {{ shipping_address.company }}{% endif %}</p>
 <p>{{ shipping_address.address1 }}</p>
@@ -46,14 +71,14 @@
 {% if shipping_address.phone %}<p>Phone: {{ shipping_address.phone }}</p>{% endif %}
 {% endif %}
 <br>
-<p><strong>Shipping Method:</strong></p>
+<p><strong>{{ shipping_method_t }}:</strong></p>
 <p>{% if shipping_method %}{{ shipping_method.title }}{% else %}None{% endif %}</p>
 <br>
-<p><strong>Tracking Number:</strong></p>
+<p><strong>{{ tracking_number_t }}:</strong></p>
 <p>{% if fulfillment.tracking_number %}{{ fulfillment.tracking_number }}{% else %}None{% endif %}</p>
 <br>
-<p><strong>Customer Email:</strong></p>
+<p><strong>{{ customer_email_t }}:</strong></p>
 <p>{{ email }}</p>
 <br>
-<p>Thank you,</p>
+<p>{{ thank_you_t }},</p>
 <p>{{ shop_name }}</p>

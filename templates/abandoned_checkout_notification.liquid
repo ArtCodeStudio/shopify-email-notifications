@@ -1,7 +1,8 @@
 {% comment %}
-    Abandoned checkout
+    Settings/Notifications/Abandoned checkout
     subject de: Schließen Sie Ihren Kauf ab
     subject en: Complete your Purchase
+    translation by https://www.jumplink.eu/
 {% endcomment %}
 
 {% assign button-border-radius = 0 %}
@@ -12,14 +13,18 @@
 {% assign language = 'de' %}
 
 {% if language == 'de' %}
-    {% capture email_title %} Your shopping cart is waiting for you {% endcapture %}
+    {% capture email_title %} Ihr Warenkorb wartet auf Sie {% endcapture %}
     {% capture email_body %}
-    {% if billing_address.first_name %}Hi {{ billing_address.first_name }}, w{% else %}
-    W{% endif %}e noticed there {% if item_count == 1 %}was an item{% else %}were some items{% endif %} left in your shopping cart.
-    If you're ready to complete your order, your cart is waiting for your return.
+    {% if billing_address.first_name %}Hallo {{ billing_address.first_name }}, w{% else %}
+    W{% endif %}ir haben festgestellt, dass Sie noch {% if item_count == 1 %}einen Artikel{% else %}mehrere Artikel{% endif %} in Ihrem Warenkorb haben.
+    Falls Sie Ihren Einkauf noch abschließen wollen, dann steht Ihnen der Warenkorb bei Ihrer Rückkehr mit diesen Artikeln noch bereit.
     {% endcapture %}
-
     {% capture disclaimer__subtext %}Wenn Sie irgendwelche Fragen haben, antworten Sie einfach auf diese E-Mail oder kontaktieren Sie uns über <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>{% endcapture %}
+
+    {% capture complete_your_purchase_t %}Einkauf fortsetzen{% endcapture %}
+    {% capture or_t %}oder{% endcapture %}
+    {% capture visit_our_store_t %}Shop besuchen{% endcapture %}
+    {% capture items_in_your_cart_t %}Artikel in Ihrem Warenkorb{% endcapture %}
 
 {% else %}
     {% capture email_title %} Your shopping cart is waiting for you {% endcapture %}
@@ -28,8 +33,14 @@
     W{% endif %}e noticed there {% if item_count == 1 %}was an item{% else %}were some items{% endif %} left in your shopping cart.
     If you're ready to complete your order, your cart is waiting for your return.
     {% endcapture %}
-
     {% capture disclaimer__subtext %}If you have any questions, reply to this email or contact us at <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>{% endcapture %}
+
+    {% capture complete_your_purchase_t %}Complete your purchase{% endcapture %}
+    {% capture or_t %}or{% endcapture %}
+    {% capture visit_our_store_t %}Visit our store{% endcapture %}
+    {% capture items_in_your_cart_t %}Items in your cart{% endcapture %}
+    
+    
 
 {% endif %}
 
@@ -109,13 +120,13 @@
     <td class="actions__cell">
       <table class="button main-action-cell">
         <tr>
-          <td class="button__cell"><a href="{{ url }}" class="button__text">Complete your purchase</a></td>
+          <td class="button__cell"><a href="{{ url }}" class="button__text">{{ complete_your_purchase_t }}</a></td>
         </tr>
       </table>
       {% if shop.url %}
     <table class="link secondary-action-cell">
       <tr>
-        <td class="link__cell"><a href="{{ shop.url }}" class="link__text"><span class='or'>or</span> Visit our store</a></td>
+        <td class="link__cell"><a href="{{ shop.url }}" class="link__text"><span class='or'>{{ or_t }}</span> {{ visit_our_store_t }}</a></td>
       </tr>
     </table>
 {% endif %}
@@ -140,7 +151,7 @@
         <table class="container">
           <tr>
             <td>
-              <h3>Items in your cart</h3>
+              <h3>{{ items_in_your_cart_t }}</h3>
             </td>
           </tr>
         </table>

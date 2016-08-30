@@ -1,6 +1,8 @@
 {% comment %}
+  Settings/Notifications/
   subject de: Rechnung {{name}}
   subject en: Invoice {{name}}
+  translation by https://www.jumplink.eu/
 {% endcomment %}
 
 {% assign button-border-radius = 0 %}
@@ -11,17 +13,45 @@
 {% assign language = 'de' %}
 
 {% if language == 'de' %}
-    {% capture email_title %}Complete your purchase{% endcapture %}
-    {% capture email_body %}{% if item_count > 1 %}These items{% else %}This item{% endif %} will be reserved for you until: <strong>{{ reserve_inventory_until | date: "%B %d, %Y at %I:%M %p %Z" }}</strong>{% endcapture %}
-
+    {% capture email_title %}Schließen Sie Ihren Kauf ab{% endcapture %}
+    {% capture email_body %}{% if item_count > 1 %}Diese Artikel{% else %}Dieser Artikel{% endif %} wurde für Sie reserviert bis <strong>{{ reserve_inventory_until | date: "%B %d, %Y at %I:%M %p %Z" }}</strong>{% endcapture %}
     {% capture disclaimer__subtext %}Wenn Sie irgendwelche Fragen haben, antworten Sie einfach auf diese E-Mail oder kontaktieren Sie uns über <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>{% endcapture %}
 
+    {% capture complete_your_purchase_t %}Einkauf abschließen{% endcapture %}
+    {% capture or_t %}oder{% endcapture %}
+    {% capture visit_our_store_t %}Shop besuchen{% endcapture %}
+    {% capture invoice_t %}Rechnung{% endcapture %}
+    {% capture order_summary_t %}Bestellübersicht{% endcapture %}
+    {% capture discount_t %}Rabatt{% endcapture %}
+    {% capture subtotal_t %}Zwischensumme{% endcapture %}
+    {% capture shipping_t %}Versand{% endcapture %}
+    {% capture total_t %}Gesamt{% endcapture %}
+    {% capture refund_t %}Rückerstattung{% endcapture %}
+    {% capture customer_information_t %}Kundeninformation{% endcapture %}
+    {% capture shipping_address_t %}Lieferanschrift{% endcapture %}
+    {% capture billing_address_t %}Rechnungsadresse{% endcapture %}
+    {% capture shipping_method_t %}Versandart{% endcapture %}
+    
 {% else %}
     {% capture email_title %}Complete your purchase{% endcapture %}
     {% capture email_body %}{% if item_count > 1 %}These items{% else %}This item{% endif %} will be reserved for you until: <strong>{{ reserve_inventory_until | date: "%B %d, %Y at %I:%M %p %Z" }}</strong>{% endcapture %}
-
     {% capture disclaimer__subtext %}If you have any questions, reply to this email or contact us at <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>{% endcapture %}
 
+    {% capture complete_your_purchase_t %}Complete your purchase{% endcapture %}
+    {% capture or_t %}or{% endcapture %}
+    {% capture visit_our_store_t %}Visit our store{% endcapture %}
+    {% capture invoice_t %}Invoice{% endcapture %}
+    {% capture order_summary_t %}Order summary{% endcapture %}
+    {% capture discount_t %}Discount{% endcapture %}
+    {% capture subtotal_t %}Subtotal{% endcapture %}
+    {% capture shipping_t %}Shipping{% endcapture %}
+    {% capture total_t %}Total{% endcapture %}
+    {% capture refund_t %}Refund{% endcapture %}
+    {% capture customer_information_t %}Customer information{% endcapture %}
+    {% capture shipping_address_t %}Shipping address{% endcapture %}
+    {% capture billing_address_t %}Billing address{% endcapture %}
+    {% capture shipping_method_t %}Shipping method{% endcapture %}
+    
 {% endif %}
 
 <!DOCTYPE html>
@@ -70,7 +100,7 @@
 
                     <td class="order-number__cell">
                       <span class="order-number__text">
-                        Invoice {{ name }}
+                        {{ invoice_t }} {{ name }}
                       </span>
                     </td>
                 </tr>
@@ -104,13 +134,13 @@
     <td class="actions__cell">
       <table class="button main-action-cell">
         <tr>
-          <td class="button__cell"><a href="{{ invoice_url }}" class="button__text">Complete your purchase</a></td>
+          <td class="button__cell"><a href="{{ invoice_url }}" class="button__text">{{ complete_your_purchase_t }}</a></td>
         </tr>
       </table>
       {% if shop.url %}
     <table class="link secondary-action-cell">
       <tr>
-        <td class="link__cell"><a href="{{ shop.url }}" class="link__text"><span class='or'>or</span> Visit our store</a></td>
+        <td class="link__cell"><a href="{{ shop.url }}" class="link__text"><span class='or'>{{ or_t }}</span> {{ visit_our_store_t }}</a></td>
       </tr>
     </table>
 {% endif %}
@@ -135,7 +165,7 @@
         <table class="container">
           <tr>
             <td>
-              <h3>Order summary</h3>
+              <h3>{{ order_summary_t }}</h3>
             </td>
           </tr>
         </table>
@@ -192,7 +222,7 @@
     <td>
       <table class="row subtotal-table">
         {% if discounts %}
-          {% capture discount_title %}Discount {% if discounts.first.code %}({{ discounts.first.code }}){% endif %}{% endcapture %}
+          {% capture discount_title %}{{ discount_t }} {% if discounts.first.code %}({{ discounts.first.code }}){% endif %}{% endcapture %}
           
 <tr class="subtotal-line">
   <td class="subtotal-line__title">
@@ -211,7 +241,7 @@
 <tr class="subtotal-line">
   <td class="subtotal-line__title">
     <p>
-      <span>Subtotal</span>
+      <span>{{ subtotal_t }}</span>
     </p>
   </td>
   <td class="subtotal-line__value">
@@ -223,7 +253,7 @@
 <tr class="subtotal-line">
   <td class="subtotal-line__title">
     <p>
-      <span>Shipping</span>
+      <span>{{ shipping_t }}</span>
     </p>
   </td>
   <td class="subtotal-line__value">
@@ -252,7 +282,7 @@
 <tr class="subtotal-line">
   <td class="subtotal-line__title">
     <p>
-      <span>Total</span>
+      <span>{{ total_t }}</span>
     </p>
   </td>
   <td class="subtotal-line__value">
@@ -306,7 +336,7 @@
 <tr class="subtotal-line">
   <td class="subtotal-line__title">
     <p>
-      <span>Refund</span>
+      <span>{{ refund_t }}</span>
         <br>
         <small>{{ refund_method_title | capitalize }}</small>
     </p>
@@ -341,7 +371,7 @@
         <table class="container">
           <tr>
             <td>
-              <h3>Customer information</h3>
+              <h3>{{ customer_information_t }}</h3>
             </td>
           </tr>
         </table>
@@ -353,32 +383,32 @@
                 <tr>
                   {% if shipping_address %}
                     <td class="customer-info__item">
-                      <h4>Shipping address</h4>
+                      <h4>{{ shipping_address_t }}</h4>
                       <p>
-  {{ shipping_address.name }}<br/>
-  {{ shipping_address.address1 }}
-  {% if shipping_address.address2 %}
-  <br/>{{ shipping_address.address2 }}
-  {% endif %}
-  <br/>{{ shipping_address.city }}, {{ shipping_address.province }} {{ shipping_address.zip }}
-  <br/>{{ shipping_address.country }}
-</p>
+                        {{ shipping_address.name }}<br/>
+                        {{ shipping_address.address1 }}
+                        {% if shipping_address.address2 %}
+                        <br/>{{ shipping_address.address2 }}
+                        {% endif %}
+                        <br/>{{ shipping_address.city }}, {{ shipping_address.province }} {{ shipping_address.zip }}
+                        <br/>{{ shipping_address.country }}
+                      </p>
 
                     </td>
                   {% endif %}
 
                   {% if billing_address %}
                     <td class="customer-info__item">
-                      <h4>Billing address</h4>
+                      <h4>{{ billing_address_t }}</h4>
                       <p>
-  {{ billing_address.name }}<br/>
-  {{ billing_address.address1 }}
-  {% if billing_address.address2 %}
-  <br/>{{ billing_address.address2 }}
-  {% endif %}
-  <br/>{{ billing_address.city }}, {{ billing_address.province }} {{ billing_address.zip }}
-  <br/>{{ billing_address.country }}
-</p>
+                        {{ billing_address.name }}<br/>
+                        {{ billing_address.address1 }}
+                        {% if billing_address.address2 %}
+                        <br/>{{ billing_address.address2 }}
+                        {% endif %}
+                        <br/>{{ billing_address.city }}, {{ billing_address.province }} {{ billing_address.zip }}
+                        <br/>{{ billing_address.country }}
+                      </p>
 
                     </td>
                   {% endif %}
@@ -388,7 +418,7 @@
                 <table class="row">
                   <tr>
                     <td class="customer-info__item customer-info__item--last">
-                      <h4>Shipping method</h4>
+                      <h4>{{ shipping_method_t }}</h4>
                       <p>{{ shipping_method.title }}<br/>{{ shipping_method.price | money }}</p>
                     </td>
                   </tr>

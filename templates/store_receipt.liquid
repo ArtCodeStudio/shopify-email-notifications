@@ -1,7 +1,8 @@
 {% comment %}
-    POS and mobile receipt
+    Settings/Notifications/POS and mobile receipt
     subject de: Eingang der Bestellung für {{name}}
     subject en: Receipt for order {{name}}
+    translation by https://www.jumplink.eu/
 {% endcomment %}
 
 {% assign button-border-radius = 0 %}
@@ -12,14 +13,30 @@
 {% assign language = 'de' %}
 
 {% if language == 'de' %}
-    {% capture email_title %}Danke für Ihren Einkauf! {% endcapture %}
 
-    {% capture disclaimer__subtext %}Wenn Sie irgendwelche Fragen haben, antworten Sie einfach auf diese E-Mail oder kontaktieren Sie uns über <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>{% endcapture %}
+  {% capture email_title %}Danke für Ihren Einkauf! {% endcapture %}
+  {% capture disclaimer__subtext %}Wenn Sie irgendwelche Fragen haben, antworten Sie einfach auf diese E-Mail oder kontaktieren Sie uns über <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>{% endcapture %}
+
+  {% capture order_t %}Bestellung{% endcapture %}
+  {% capture visit_or_shop_t %}Besuche unseren Shop{% endcapture %}
+  {% capture order_summary_t %}Bestellzusammenfassung{% endcapture %}
+  {% capture subtotal_t %}Zwischensumme{% endcapture %}
+  {% capture shipping_t %}Versand{% endcapture %}
+  {% capture total_t %}Gesamt{% endcapture %}
+  {% capture refund_t %}Rabatt{% endcapture %}
 
 {% else %}
-    {% capture email_title %}Thank you for your purchase! {% endcapture %}
 
-    {% capture disclaimer__subtext %}If you have any questions, reply to this email or contact us at <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>{% endcapture %}
+  {% capture email_title %}Thank you for your purchase! {% endcapture %}
+  {% capture disclaimer__subtext %}If you have any questions, reply to this email or contact us at <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>{% endcapture %}
+
+  {% capture order_t %}Order{% endcapture %}
+  {% capture visit_or_shop_t %}Visit our store{% endcapture %}
+  {% capture order_summary_t %}Order summary{% endcapture %}
+  {% capture subtotal_t %}Subtotal{% endcapture %}
+  {% capture shipping_t %}Shipping{% endcapture %}
+  {% capture total_t %}Total{% endcapture %}
+  {% capture refund_t %}Refund{% endcapture %}
 
 {% endif %}
 
@@ -69,7 +86,7 @@
 
                     <td class="order-number__cell">
                       <span class="order-number__text">
-                        Order {{ order_name }}
+                        {{ order_t }} {{ order_name }}
                       </span>
                     </td>
                 </tr>
@@ -99,7 +116,7 @@
                   <td class="actions__cell">
                     <table class="button main-action-cell">
                       <tr>
-                        <td class="button__cell"><a href="{{ shop.url }}" class="button__text">Visit our store</a></td>
+                        <td class="button__cell"><a href="{{ shop.url }}" class="button__text">{{ visit_or_shop_t }}</a></td>
                       </tr>
                     </table>
                   </td>
@@ -122,7 +139,7 @@
         <table class="container">
           <tr>
             <td>
-              <h3>Order Summary</h3>
+              <h3>{{ order_summary_t }}</h3>
             </td>
           </tr>
         </table>
@@ -198,7 +215,7 @@
 <tr class="subtotal-line">
   <td class="subtotal-line__title">
     <p>
-      <span>Subtotal</span>
+      <span>{{ subtotal_t }}</span>
     </p>
   </td>
   <td class="subtotal-line__value">
@@ -210,7 +227,7 @@
 <tr class="subtotal-line">
   <td class="subtotal-line__title">
     <p>
-      <span>Shipping</span>
+      <span>{{ shipping_t }}</span>
     </p>
   </td>
   <td class="subtotal-line__value">
@@ -239,7 +256,7 @@
 <tr class="subtotal-line">
   <td class="subtotal-line__title">
     <p>
-      <span>Total</span>
+      <span>{{ total_t }}</span>
     </p>
   </td>
   <td class="subtotal-line__value">
@@ -293,7 +310,7 @@
 <tr class="subtotal-line">
   <td class="subtotal-line__title">
     <p>
-      <span>Refund</span>
+      <span>{{ refund_t }}</span>
         <br>
         <small>{{ refund_method_title | capitalize }}</small>
     </p>
